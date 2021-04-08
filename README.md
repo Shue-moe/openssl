@@ -47,7 +47,6 @@ if ! [[ -d $certs_dir ]]; then
 fi
 
 create_certificate () {
-  export SAN=${value_subject_alt_name//\?/${2}}
 
   openssl req \
     -config openssl.cnf \
