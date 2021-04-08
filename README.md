@@ -73,16 +73,15 @@ sign_certificate () {
     -out "${work_dir}/public.pem"
 }
 
-for cert in ${certificates[@]}; do
-  work_dir="$(pwd)/${cert}"
 
-  mkdir $work_dir && cd $work_dir
-  cp ${home_dir}/openssl.cnf .
-  create_files
-  openssl genrsa -out private.pem &> /dev/null
+work_dir="$(pwd)/${cert}"
 
-  create_certificate "v3_ca" "CA" "-x509"
+mkdir $work_dir && cd $work_dir
+cp ${home_dir}/openssl.cnf .
+create_files
+openssl genrsa -out private.pem &> /dev/null
 
-  cd $certs_dir
-done
+create_certificate "v3_ca" "CA" "-x509"
+
+cd $certs_dir
 ```
