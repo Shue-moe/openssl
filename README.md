@@ -33,8 +33,6 @@ openssl:
 certs_dir="/etc/pki/"
 home_dir=$(pwd)
 
-certificates=(CA)
-
 value_subj="/C=RU/ST=Moscow\
 /L=Moscow/O=InfoWatch\
 /OU=IT/CN=?\
@@ -44,12 +42,6 @@ if ! [[ -d $certs_dir ]]; then
   mkdir -p $certs_dir
   cd $certs_dir
 fi
-
-create_files () {
-  touch index.txt
-  echo 01 > serial
-  mkdir crl certs requests newcerts
-}
 
 create_certificate () {
   export SAN=${value_subject_alt_name//\?/${2}}
@@ -78,7 +70,6 @@ work_dir="$(pwd)/${cert}"
 
 mkdir $work_dir && cd $work_dir
 cp ${home_dir}/openssl.cnf .
-create_files
 openssl genrsa -out private.pem &> /dev/null
 
 create_certificate "v3_ca" "CA" "-x509"
